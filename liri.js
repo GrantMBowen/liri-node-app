@@ -1,6 +1,7 @@
 require("dotenv").config();
 var moment = require("moment");
 var Spotify = require("node-spotify-api");
+var fs = require("fs");
 
 var keys = require("./keys.js");
 
@@ -15,8 +16,10 @@ console.log(question);
 switch(process.argv[2]) {
     
     case "concert-this":
+        function concertThis(){
         
         var queryURL = "https://rest.bandsintown.com/artists/" + question + "/events?app_id=codingbootcamp";
+
         axios.get(queryURL).then(
             function(response) {
                 console.log("Venue: " + response.data[0].venue.name);
@@ -24,6 +27,8 @@ switch(process.argv[2]) {
                 console.log(moment(response.data[0].datetime).format("MM/DD/YYYY"));
             }
         );
+        };
+        concertThis();
 
         //    * This will search the Bands in Town Artist Events API (`"https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"`) for an artist and render the following information about each event to the terminal:
 
@@ -35,6 +40,7 @@ switch(process.argv[2]) {
     break;
 
     case "spotify-this-song":
+            function spotifyThisSong() {
             if (question === ""){
                 var question = "the Sign ace of base";
             }
@@ -48,10 +54,12 @@ switch(process.argv[2]) {
                 console.log("URL: " + songResponse.tracks.items[0].preview_url);
                 console.log("Album: " + songResponse.tracks.items[0].album.name);
             });        
-    
+        };
     break;
 
     case "movie-this":
+
+    function movieThis() {
             if (question === "") {
                 var question = "Mr Nobody";
         }
@@ -70,29 +78,41 @@ switch(process.argv[2]) {
                     console.log("Rotten Tomatoes: " + movieResponse.data.Ratings[1].Value);
                 }
             );
-        //     * This will output the following information to your terminal/bash window:
-
-        //     ```
-        //       * Title of the movie.
-        //       * Year the movie came out.
-        //       * IMDB Rating of the movie.
-        //       * Rotten Tomatoes Rating of the movie.
-        //       * Country where the movie was produced.
-        //       * Language of the movie.
-        //       * Plot of the movie.
-        //       * Actors in the movie.
-        //     ```
-       
-        //   * If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
-       
-        //     * If you haven't watched "Mr. Nobody," then you should: <http://www.imdb.com/title/tt0485947/>
-       
-        //     * It's on Netflix!
-       
-        //   * You'll use the `axios` package to retrieve data from the OMDB API. Like all of the in-class activities, the OMDB API requires an API key. You may use `trilogy`.
+            }
     break;
     
-    case "do-what-it-says":
+    // case "do-what-it-says":
+    //         function doWhatInfo() {
+
+    //             fs.readFile("random.txt", "utf8", function(error, data) {
+    //                 var command;
+    //                 var query;
+            
+    //                 // If there is a comma, then we will split the string from file in order to differentiate between the command and query
+    //                 // 	--> if there is no comma, then only the command is considered (my-tweets)
+    //                 if(data.indexOf(",") !== -1) {
+    //                     var dataArr = data.split(",");
+    //                     command = dataArr[0];
+    //                     query = dataArr[1];
+    //                 } else {
+    //                     command = data;
+    //                 }
+            
+    //                 // After reading the command from the file, decides which app function to run
+    //                 if(command === "concert-this") {
+    //                     concertThis();
+    //                 } else if(command === "spotify-this-song") {
+    //                     spotifyThisSong(query);
+    //                     console.log(query, command);
+    //                 } else if(command === "movie-this") {
+    //                     movieThis(query);
+    //                 } else { // Use case where the command is not recognized
+    //                     console.log("Command from file is not a valid command! Please try again.")
+    //                 };
+                
+
+    //             doWhatInfo();
+                
             // * Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 
             // * It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
@@ -100,6 +120,5 @@ switch(process.argv[2]) {
             // * Edit the text in random.txt to test out the feature for movie-this and concert-this.
     break;
 }
-
-
-
+            
+        
